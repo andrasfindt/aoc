@@ -1,4 +1,4 @@
-package xyz.andrasfindt.aoc2019.daytwo;
+package xyz.andrasfindt.aoc2019.opcode.common;
 
 public class Result<T extends Number> {
     private int index;

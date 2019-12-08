@@ -1,4 +1,6 @@
-package xyz.andrasfindt.aoc2019.daytwo;
+package xyz.andrasfindt.aoc2019.opcode.common;
+
+import xyz.andrasfindt.aoc2019.opcode.integer.IntegerOperation;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -6,36 +8,40 @@ import java.util.logging.Logger;
 
 import static xyz.andrasfindt.aoc2019.StringUtil.getLines;
 
-@SuppressWarnings({"squid:S3655", "squid:S2629"})
 public class Program {
     private static final Integer HALT_CODE = Integer.MIN_VALUE;
     private static final Logger LOGGER = Logger.getLogger(Program.class.getName());
 
     private final String[] memory;
 
-    public Program(String noun, String verb) throws IOException {
-        Optional<String> programContainer = getLines("2019/2/input.txt").findFirst();
+    public Program(String noun, String verb, String fileName) throws IOException {
+        Optional<String> programContainer = getLines(fileName).findFirst();
         if (programContainer.isPresent()) {
             memory = programContainer.get().split(",");
-            memory[1] = noun;
-            memory[2] = verb;
+            if (noun != null) {
+                memory[1] = noun;
+            }
+            if (verb != null) {
+                memory[2] = verb;
+            }
         } else {
             throw new UnsupportedOperationException("program couldn't be loaded");
         }
     }
 
     public int execute() {
-        int pc = 0;
-        while (pc < memory.length) {
-            IntegerOperation operation = new IntegerOperation(pc, memory);
+        int programCounter = 0;
+        while (programCounter < memory.length) {
+            Operation<Integer> operation = new IntegerOperation(programCounter, memory);
             Result<Integer> result = operation.execute();
+            int index = result.getIndex();
             Integer value = result.getValue();
             LOGGER.info(operation.toString());
             if (value.equals(HALT_CODE)) {
                 break;
             }
-            memory[result.getIndex()] = String.valueOf(value);
-            pc += operation.getSize();
+            memory[index] = String.valueOf(value);
+            programCounter += operation.getSize();
         }
         int output = Integer.parseInt(memory[0]);
         String msg = String.format("result: %s", output);

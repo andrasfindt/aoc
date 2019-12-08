@@ -1,4 +1,4 @@
-package xyz.andrasfindt.aoc2019.daytwo;
+package xyz.andrasfindt.aoc2019.opcode.common;
 
 public class Operand<T extends Number> {
     private T value;
@@ -14,7 +14,11 @@ public class Operand<T extends Number> {
     @Override
     public String toString() {
         return "Operand{" +
-                ", value=" + value +
+                "value=" + value +
                 '}';
+    }
+
+    public enum Mode {
+        BY_REFERENCE, BY_VALUE
     }
 }

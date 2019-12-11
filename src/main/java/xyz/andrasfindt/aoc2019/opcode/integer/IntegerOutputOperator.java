@@ -1,6 +1,7 @@
 package xyz.andrasfindt.aoc2019.opcode.integer;
 
 import xyz.andrasfindt.aoc2019.opcode.common.Operand;
+import xyz.andrasfindt.aoc2019.opcode.common.Program;
 import xyz.andrasfindt.aoc2019.opcode.common.operator.OutputOperator;
 
 import java.io.PrintStream;
@@ -20,6 +21,7 @@ public class IntegerOutputOperator extends OutputOperator<Integer> {
     public Integer operate(List<Operand<Integer>> operands) {
         Integer value = operands.get(0).getValue();
         outputStream.println(value);
+        Program.lastOutput = value;
         return CONTROL_CODE;
     }
 }

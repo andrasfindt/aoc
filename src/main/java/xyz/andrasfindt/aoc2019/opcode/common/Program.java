@@ -1,10 +1,12 @@
 package xyz.andrasfindt.aoc2019.opcode.common;
 
+import xyz.andrasfindt.aoc2019.opcode.integer.IntegerInputOperator;
 import xyz.andrasfindt.aoc2019.opcode.integer.IntegerOperation;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
+import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
 
@@ -14,7 +16,8 @@ public class Program {
     public static final Integer HALT_CODE = Integer.MIN_VALUE;
     public static final Integer CONTROL_CODE = Integer.MIN_VALUE + 1;
     private static final Logger LOGGER = Logger.getLogger(Program.class.getName());
-
+    public static Integer lastOutput;
+    public static List<Integer> inputResponses;
     private final String[] memory;
     private InputStream inputStream;
     private PrintStream outputStream;
@@ -44,7 +47,9 @@ public class Program {
         return outputStream;
     }
 
-    public int execute() {
+    public int execute(List<Integer> inputResponses) {
+        Program.inputResponses = inputResponses;
+        IntegerInputOperator.inputIndex = 0;
         int programCounter = 0;
         while (programCounter < memory.length) {
             Operation<Integer> operation = new IntegerOperation(inputStream, outputStream, programCounter, memory);
@@ -62,7 +67,7 @@ public class Program {
         }
         int output = Integer.parseInt(memory[0]);
         String msg = String.format("result: %s", output);
-        LOGGER.info(msg);
+//        LOGGER.info(msg);
         return output;
     }
 }

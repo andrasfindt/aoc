@@ -11,14 +11,10 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
         part1();
-//        part2();
     }
 
     private static void part1() throws IOException {
         int i = new Program(null, null, "2019/5/input.txt").execute();
-        if (i == 5866714) {
-            LOGGER.info("SUCCESS");
-        }
     }
 
     private static void part2() throws IOException {

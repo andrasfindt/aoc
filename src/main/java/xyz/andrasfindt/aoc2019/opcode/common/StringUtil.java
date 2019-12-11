@@ -1,4 +1,4 @@
-package xyz.andrasfindt.aoc2019;
+package xyz.andrasfindt.aoc2019.opcode.common;
 
 import java.io.File;
 import java.io.IOException;

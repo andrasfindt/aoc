@@ -10,6 +10,10 @@ public abstract class Operator<T extends Number> {
         return getClass().getSimpleName();
     }
 
+    public int determineProgramCounter(int programCounter, int size) {
+        return programCounter + size;
+    }
+
     public interface Halt {
     }
 
@@ -25,5 +29,16 @@ public abstract class Operator<T extends Number> {
     public interface Output {
     }
 
+    public interface JumpIfTrue {
+    }
+
+    public interface JumpIfFalse {
+    }
+
+    public interface LessThan {
+    }
+
+    public interface Equals {
+    }
 
 }

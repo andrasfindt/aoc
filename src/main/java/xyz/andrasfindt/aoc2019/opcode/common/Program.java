@@ -6,10 +6,11 @@ import java.io.IOException;
 import java.util.Optional;
 import java.util.logging.Logger;
 
-import static xyz.andrasfindt.aoc2019.StringUtil.getLines;
+import static xyz.andrasfindt.aoc2019.opcode.common.StringUtil.getLines;
 
 public class Program {
-    private static final Integer HALT_CODE = Integer.MIN_VALUE;
+    public static final Integer HALT_CODE = Integer.MIN_VALUE;
+    public static final Integer CONTROL_CODE = Integer.MIN_VALUE + 1;
     private static final Logger LOGGER = Logger.getLogger(Program.class.getName());
 
     private final String[] memory;
@@ -36,12 +37,14 @@ public class Program {
             Result<Integer> result = operation.execute();
             int index = result.getIndex();
             Integer value = result.getValue();
-            LOGGER.info(operation.toString());
+            LOGGER.fine(operation.toString());
             if (value.equals(HALT_CODE)) {
                 break;
             }
-            memory[index] = String.valueOf(value);
-            programCounter += operation.getSize();
+            if (!value.equals(CONTROL_CODE)) {
+                memory[index] = String.valueOf(value);
+            }
+            programCounter = result.getProgramCounter();
         }
         int output = Integer.parseInt(memory[0]);
         String msg = String.format("result: %s", output);

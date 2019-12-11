@@ -4,8 +4,12 @@ import xyz.andrasfindt.aoc2019.opcode.common.Operand;
 import xyz.andrasfindt.aoc2019.opcode.common.Operation;
 import xyz.andrasfindt.aoc2019.opcode.common.Result;
 import xyz.andrasfindt.aoc2019.opcode.common.operator.AdditionOperator;
+import xyz.andrasfindt.aoc2019.opcode.common.operator.EqualsOperator;
 import xyz.andrasfindt.aoc2019.opcode.common.operator.HaltOperator;
 import xyz.andrasfindt.aoc2019.opcode.common.operator.InputOperator;
+import xyz.andrasfindt.aoc2019.opcode.common.operator.JumpIfFalseOperator;
+import xyz.andrasfindt.aoc2019.opcode.common.operator.JumpIfTrueOperator;
+import xyz.andrasfindt.aoc2019.opcode.common.operator.LessThanOperator;
 import xyz.andrasfindt.aoc2019.opcode.common.operator.MultiplicationOperator;
 import xyz.andrasfindt.aoc2019.opcode.common.operator.OutputOperator;
 
@@ -18,6 +22,7 @@ public class IntegerOperation extends Operation<Integer> {
     @Override
     public Result<Integer> execute() {
         result.setValue(operator.operate(operands));
+        result.setProgramCounter(operator.determineProgramCounter(programCounter, size));
         return result;
     }
 
@@ -43,7 +48,27 @@ public class IntegerOperation extends Operation<Integer> {
 
     @Override
     protected OutputOperator<Integer> createOutputOperator() {
-        return new IntegerOutputOperator();
+        return new IntegerOutputOperator(System.out);
+    }
+
+    @Override
+    protected JumpIfTrueOperator<Integer> createJumpIfTrueOperator() {
+        return new IntegerJumpIfTrueOperator();
+    }
+
+    @Override
+    protected JumpIfFalseOperator<Integer> createJumpIfFalseOperator() {
+        return new IntegerJumpIfFalseOperator();
+    }
+
+    @Override
+    protected LessThanOperator<Integer> createLessThanOperator() {
+        return new IntegerLessThanOperator();
+    }
+
+    @Override
+    protected EqualsOperator<Integer> createEqualsOperator() {
+        return new IntegerEqualsOperator();
     }
 
     @Override

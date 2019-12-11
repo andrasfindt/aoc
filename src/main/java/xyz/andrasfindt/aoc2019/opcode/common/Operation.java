@@ -1,8 +1,12 @@
 package xyz.andrasfindt.aoc2019.opcode.common;
 
 import xyz.andrasfindt.aoc2019.opcode.common.operator.AdditionOperator;
+import xyz.andrasfindt.aoc2019.opcode.common.operator.EqualsOperator;
 import xyz.andrasfindt.aoc2019.opcode.common.operator.HaltOperator;
 import xyz.andrasfindt.aoc2019.opcode.common.operator.InputOperator;
+import xyz.andrasfindt.aoc2019.opcode.common.operator.JumpIfFalseOperator;
+import xyz.andrasfindt.aoc2019.opcode.common.operator.JumpIfTrueOperator;
+import xyz.andrasfindt.aoc2019.opcode.common.operator.LessThanOperator;
 import xyz.andrasfindt.aoc2019.opcode.common.operator.MultiplicationOperator;
 import xyz.andrasfindt.aoc2019.opcode.common.operator.OutputOperator;
 
@@ -17,13 +21,20 @@ public abstract class Operation<T extends Number> {
     protected static final int MUL = 2;
     protected static final int IN = 3;
     protected static final int OUT = 4;
+    protected static final int JT = 5;
+    protected static final int JF = 6;
+    protected static final int LT = 7;
+    protected static final int EQ = 8;
+    protected final int programCounter;
     protected Result<T> result;
     protected List<Operand<T>> operands = new ArrayList<>();
     protected Operator<T> operator;
     protected int size;
 
     public Operation(int programCounter, String... args) {
-        String command = padLeft(args[programCounter]);
+        this.programCounter = programCounter;
+        String command = padLeft(args[this.programCounter]);
+//        System.out.println(command);
         int operation = determineOperation(command);
         Map<Integer, Operand.Mode> modes = determineModes(command);
         switch (operation) {
@@ -56,6 +67,34 @@ public abstract class Operation<T extends Number> {
                 operands.add(createOperandWithMode(modes.get(0), programCounter + 1, args));
                 result = createResult(modes.get(0), programCounter + 1, args);
                 size = 2;
+                break;
+            case JT:
+                operator = createJumpIfTrueOperator();
+                operands.add(createOperandWithMode(modes.get(0), programCounter + 1, args));
+                operands.add(createOperandWithMode(modes.get(1), programCounter + 2, args));
+                result = createResult(modes.get(0), programCounter + 2, args);
+                size = 3;
+                break;
+            case JF:
+                operator = createJumpIfFalseOperator();
+                operands.add(createOperandWithMode(modes.get(0), programCounter + 1, args));
+                operands.add(createOperandWithMode(modes.get(1), programCounter + 2, args));
+                result = createResult(modes.get(0), programCounter + 2, args);
+                size = 3;
+                break;
+            case LT:
+                operator = createLessThanOperator();
+                operands.add(createOperandWithMode(modes.get(0), programCounter + 1, args));
+                operands.add(createOperandWithMode(modes.get(1), programCounter + 2, args));
+                result = createResult(modes.get(0), programCounter + 3, args);
+                size = 4;
+                break;
+            case EQ:
+                operator = createEqualsOperator();
+                operands.add(createOperandWithMode(modes.get(0), programCounter + 1, args));
+                operands.add(createOperandWithMode(modes.get(1), programCounter + 2, args));
+                result = createResult(modes.get(0), programCounter + 3, args);
+                size = 4;
                 break;
             default:
                 throw new UnsupportedOperationException("dunno what this is, yo");
@@ -94,6 +133,14 @@ public abstract class Operation<T extends Number> {
     protected abstract InputOperator<T> createInputOperator();
 
     protected abstract OutputOperator<T> createOutputOperator();
+
+    protected abstract JumpIfTrueOperator<T> createJumpIfTrueOperator();
+
+    protected abstract JumpIfFalseOperator<T> createJumpIfFalseOperator();
+
+    protected abstract LessThanOperator<T> createLessThanOperator();
+
+    protected abstract EqualsOperator<T> createEqualsOperator();
 
     protected abstract Operand<T> createOperand(Integer value);
 

@@ -17,10 +17,7 @@ public class IntegerInputOperator extends InputOperator<Integer> {
 
     @Override
     public Integer operate(List<Operand<Integer>> operands) {
-        System.out.println("enter a number:");
         Scanner scanner = new Scanner(inputStream);
-        while (!scanner.hasNextInt()) {
-        }
         return scanner.nextInt();
     }
 }

@@ -10,6 +10,8 @@ import xyz.andrasfindt.aoc2019.opcode.common.operator.LessThanOperator;
 import xyz.andrasfindt.aoc2019.opcode.common.operator.MultiplicationOperator;
 import xyz.andrasfindt.aoc2019.opcode.common.operator.OutputOperator;
 
+import java.io.InputStream;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -31,7 +33,13 @@ public abstract class Operation<T extends Number> {
     protected Operator<T> operator;
     protected int size;
 
-    public Operation(int programCounter, String... args) {
+
+    protected InputStream inputStream;
+    protected PrintStream outputStream;
+
+    public Operation(InputStream inputStream, PrintStream outputStream, int programCounter, String... args) {
+        this.outputStream = outputStream;
+        this.inputStream = inputStream;
         this.programCounter = programCounter;
         String command = padLeft(args[this.programCounter]);
 //        System.out.println(command);

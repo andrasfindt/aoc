@@ -13,10 +13,13 @@ import xyz.andrasfindt.aoc2019.opcode.common.operator.LessThanOperator;
 import xyz.andrasfindt.aoc2019.opcode.common.operator.MultiplicationOperator;
 import xyz.andrasfindt.aoc2019.opcode.common.operator.OutputOperator;
 
+import java.io.InputStream;
+import java.io.PrintStream;
+
 public class IntegerOperation extends Operation<Integer> {
 
-    public IntegerOperation(int programCounter, String... args) {
-        super(programCounter, args);
+    public IntegerOperation(InputStream inputStream, PrintStream outputStream, int programCounter, String... args) {
+        super(inputStream, outputStream, programCounter, args);
     }
 
     @Override
@@ -43,12 +46,12 @@ public class IntegerOperation extends Operation<Integer> {
 
     @Override
     protected InputOperator<Integer> createInputOperator() {
-        return new IntegerInputOperator();
+        return new IntegerInputOperator(inputStream);
     }
 
     @Override
     protected OutputOperator<Integer> createOutputOperator() {
-        return new IntegerOutputOperator(System.out);
+        return new IntegerOutputOperator(outputStream);
     }
 
     @Override

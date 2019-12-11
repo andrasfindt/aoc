@@ -3,6 +3,8 @@ package xyz.andrasfindt.aoc2019.opcode.common;
 import xyz.andrasfindt.aoc2019.opcode.integer.IntegerOperation;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintStream;
 import java.util.Optional;
 import java.util.logging.Logger;
 
@@ -14,8 +16,12 @@ public class Program {
     private static final Logger LOGGER = Logger.getLogger(Program.class.getName());
 
     private final String[] memory;
+    private InputStream inputStream;
+    private PrintStream outputStream;
 
-    public Program(String noun, String verb, String fileName) throws IOException {
+    public Program(String noun, String verb, String fileName, InputStream inputStream, PrintStream outputStream) throws IOException {
+        this.inputStream = inputStream;
+        this.outputStream = outputStream;
         Optional<String> programContainer = getLines(fileName).findFirst();
         if (programContainer.isPresent()) {
             memory = programContainer.get().split(",");
@@ -30,10 +36,18 @@ public class Program {
         }
     }
 
+    public InputStream getInputStream() {
+        return inputStream;
+    }
+
+    public PrintStream getOutputStream() {
+        return outputStream;
+    }
+
     public int execute() {
         int programCounter = 0;
         while (programCounter < memory.length) {
-            Operation<Integer> operation = new IntegerOperation(programCounter, memory);
+            Operation<Integer> operation = new IntegerOperation(inputStream, outputStream, programCounter, memory);
             Result<Integer> result = operation.execute();
             int index = result.getIndex();
             Integer value = result.getValue();

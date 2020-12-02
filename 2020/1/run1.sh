@@ -1,5 +1,6 @@
+# shellcheck disable=SC2094
 while IFS="" read -r p || [ -n "$p" ]; do
-  while read r; do
+  while read -r r; do
     s=$((p + r))
     if [ $s -eq 2020 ]; then
       printf '%d + %d = %d\n' "$p" "$r" "$s"

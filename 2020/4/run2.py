@@ -69,10 +69,10 @@ for passport in passports:
     print(passport)
     field_validity = []
     for x in passport.split(' '):
-        passport_field = x.split(':')
-        if not passport_field[0] in required_fields:
+        k, v = x.split(':')
+        if k not in required_fields:
             continue
-        field_validity.append((passport_field[0], functions["validate_" + passport_field[0]](passport_field[1])))
+        field_validity.append((k, functions["validate_" + k](v)))
     keys_present = [i[0] for i in field_validity]
     all_fields_valid = (not (False in [i[1] for i in field_validity]))
     missing_fields = list(set(keys_present) ^ required_fields)

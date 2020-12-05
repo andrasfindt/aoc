@@ -19,10 +19,10 @@ for passport in passports:
     num_fields_present = 0
     keys_present = []
     for x in passport.split(' '):
-        passport_field = x.split(':')
-        if not passport_field[0] in required_fields:
+        k, v = x.split(':')
+        if k not in required_fields:
             continue
-        keys_present.append(passport_field[0])
+        keys_present.append(k)
     missing_fields = list(set(keys_present) ^ required_fields)
     if not missing_fields:
         valid_count += 1

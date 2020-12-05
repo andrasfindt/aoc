@@ -1,5 +1,9 @@
-file = open('input.txt', 'r')
-boarding_passes = file.read().replace("F", "0").replace("B", "1").replace("R", "1").replace("L", "0").split("\n")
+boarding_passes = open('input.txt', 'r').read() \
+    .replace("F", "0") \
+    .replace("B", "1") \
+    .replace("R", "1") \
+    .replace("L", "0") \
+    .split("\n")
 
 pass_ids = []
 for boarding_pass in boarding_passes:

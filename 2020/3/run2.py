@@ -10,9 +10,6 @@ def do_run(x, y):
         if (num + 1) % y == 0:
             if line_list[pos] == '#':
                 tree_count += 1
-                line_list[pos] = 'X'
-            else:
-                line_list[pos] = 'O'
             pos = (pos + x) % length
     return tree_count
 

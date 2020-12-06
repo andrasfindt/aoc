@@ -1,16 +1,12 @@
 def do_run(x, y):
-    file = open('input.txt', 'r')
-    lines = file.readlines()
     tree_count = 0
     pos = 0
-    for num, line in enumerate(lines):
+    for num, line in enumerate(open('input.txt', 'r').readlines()):
         num += 1
-        length = len(line.strip())
         line_list = list(line.strip())
         if (num + 1) % y == 0:
-            if line_list[pos] == '#':
-                tree_count += 1
-            pos = (pos + x) % length
+            tree_count += line_list[pos] == '#'
+            pos = (pos + x) % len(line.strip())
     return tree_count
 
 

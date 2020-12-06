@@ -1,9 +1,10 @@
-file1 = open('input.txt', 'r')
-Lines = file1.readlines()
+def get_count(line, pos):
+    return line[pos] == '#', (pos + 3) % (len(line.strip()))
+
 
 treeCount = 0
 pos = 0
-for line in Lines:
-    treeCount += line[pos] == '#'
-    pos = (pos + 3) % (len(line.strip()))
+for line in open("input.txt", 'r').readlines():
+    c, pos = get_count(line, pos)
+    treeCount += c
 print(treeCount)
